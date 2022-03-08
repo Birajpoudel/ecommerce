@@ -31,6 +31,12 @@ class SubcategoryView(BaseView):
 
 		return render(request,'subcategory.html',self.views)
 
+class DetailsView(BaseView):
+	def get(self,request,slug):
+		
+		self.views['details_products']=Product.objects.filter(slug = slug)
+		return render(request,'single.html',self.views)
+
 
 class SearchView(BaseView):
 	def get(self,request):
@@ -54,7 +60,7 @@ def signup(request):
 		email = request.POST['email']
 		password = request.POST['password']
 		cpassword = request.POST['cpassword']
-		if password == cpassword :
+		if password == cpassword: 
 			if User.objects.filter(username = username).exists():
 
 				messages.error(request,"The Username is already Used")
