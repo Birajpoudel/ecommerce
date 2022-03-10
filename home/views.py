@@ -34,7 +34,7 @@ class SubcategoryView(BaseView):
 class DetailsView(BaseView):
 	def get(self,request,slug):
 		
-		self.views['details_products']=Product.objects.filter(slug = slug)
+		self.views['details_products']=Product.objects.filter(id = slug)
 		return render(request,'single.html',self.views)
 
 
@@ -84,7 +84,46 @@ def signup(request):
 
 	return render(request,'register.html')
 
+from django.contrib.auth.decorators import login_required
+@login_required
+def cart(request,id):
+	if Cart.objects.filter(product_id = id,user=request.user.username):
+		quantity = Cart.objects.get(product_id = id).quantity
+		quantity=quantity + 1
+		Cart.objects.filter(product_id=id).update(quantity = quantity)
 
+	else:
+		quantity = Cart.objects.get(product_id = id).quantity
+		data =Cart.objects.create(
+			user = request.user.username,
+			product_id=id,
+
+			quantity=1,
+			items = Product.objects.filter(id = id))
+		data.save()
+
+	return redirect('/')
+
+
+
+def deletecart(request,id):
+	cart= Cart.objects.filter(product_id = id,user=request.user.username,checkout=False).exixts()
+	if cart.exists():
+		cart.delete()
+	return redirect('/')
+
+def removecart(request,id):
+	cart= Cart.objects.filter(product_id = id,user=request.user.username,checkout=False).exixts()
+	if cart.exists():
+		quantity=quantity-1
+		cart.update(quantity= quantity)
+	return redirect('/')
+
+
+class CartView(BaseView):
+	def get(self,request):
+		self.views["my_cart"]=Cart.objects.filter(user=request.user.username,checkout=False)
+		return render(request,'wishlist.html',self.views)
 
 
 

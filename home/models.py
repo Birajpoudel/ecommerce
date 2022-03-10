@@ -58,3 +58,14 @@ class Slider(models.Model):
 	def __str__(self):
 		return self.name
 
+class Cart(models.Model):
+	user = models.CharField(max_length = 300)
+	product_id = models.IntegerField()
+	items =  models.ForeignKey(Product,on_delete = models.CASCADE)
+	quantity = models.IntegerField()
+	checkout = models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.user
+
+
