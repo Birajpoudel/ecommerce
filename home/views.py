@@ -125,6 +125,40 @@ class CartView(BaseView):
 		self.views["my_cart"]=Cart.objects.filter(user=request.user.username,checkout=False)
 		return render(request,'wishlist.html',self.views)
 
+from django.core.mail import EmailMessage
+def contact(request):
+	if request.method == 'POST':
+	
+		name = request.POST['name']
+		email = request.POST['email']
+		message = request.POST['message']
+		data = Contact.objects.create(
+			name = name,
+			email = email,
+			message = message
+			)
+		data.save()
+		try:
+
+			email = EmailMessage(
+	    			'Hello',
+	   				'Hello, Thanks for messaging us.We will asap to you soon.',
+	   				'birajpoudel830@gmail.com',
+	   				[email],
+	   				)
+			email.send()
+		except:
+			pass
+		else:
+			messages.success(request,'Email has sent!')
+			return redirect('home:contact')
+
+	return render(request,'contact.html')
+    			
+   
+    
+
+
 
 
 

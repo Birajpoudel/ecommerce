@@ -68,4 +68,11 @@ class Cart(models.Model):
 	def __str__(self):
 		return self.user
 
+class Contact(models.Model):
+	name  = models.CharField(max_length = 400)
+	email = models.EmailField(max_length = 400, blank = True)
+	message = models.TextField(max_length = 400)
+
+	def __str__(self):
+		return self.name
 

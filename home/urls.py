@@ -14,5 +14,5 @@ urlpatterns = [
     path('deletecart/<id>',deletecart,name ='deletecart'),
     path('removecart/<id>',removecart,name ='removecart'),
     path('my_cart', CartView.as_view(),name='my_cart'),
-
+    path('contact', contact,name='contact'),
 ]

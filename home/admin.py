@@ -7,6 +7,7 @@ admin.site.register(Product)
 admin.site.register(Ad)
 admin.site.register(Slider)
 admin.site.register(Cart)
+admin.site.register(Contact)
 
 
 
