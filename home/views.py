@@ -154,8 +154,14 @@ def contact(request):
 			return redirect('home:contact')
 
 	return render(request,'contact.html')
-    			
-   
+
+
+# ----------------------API-----------------------------
+from rest_framework import routers, serializers, viewsets
+from .serializers import *  			
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     
 
 
