@@ -157,20 +157,29 @@ def contact(request):
 
 
 # ----------------------API-----------------------------
+
+
+
+
 from rest_framework import routers, serializers, viewsets
-from .serializers import *  			
+from .serializers import *
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    
 
+import django_filters.rest_framework
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, generics
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import generics
 
+class ProductListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-
-
-
-
-
-
+    filter_backends = (DjangoFilterBackend,OrderingFilter,SearchFilter)
+    filter_fields = ['id','name','price','labels','category','subcategory']
+    ordering_fields = ['price','title','id']
+    search_fields = ['name','description','overview']
 
 	
